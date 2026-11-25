@@ -14,7 +14,7 @@ function loadEntries(): Entry[] {
       Number.isInteger(entry.number) && typeof entry.name === 'string' &&
       typeof entry.score === 'number' && Number.isFinite(entry.score) &&
       typeof entry.title === 'string' && typeof entry.commentary === 'string' &&
-      typeof entry.thumbnail === 'string')
+      typeof entry.thumbnail === 'string' && /^data:image\/jpeg;base64,[A-Za-z0-9+/]+={0,2}$/.test(entry.thumbnail))
   } catch {
     return []
   }
