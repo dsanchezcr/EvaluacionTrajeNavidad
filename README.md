@@ -19,14 +19,14 @@ Para comprobar la compilación ejecuta `npm run build`; para revisar el código,
 
 ## Desplegar en GitHub Pages
 
-1. En el repositorio, abre **Settings → Secrets and variables → Actions**. Selecciona **New repository secret**, crea `GEMINI_API_KEY` y pega la clave.
-2. En **Settings → Pages**, selecciona **GitHub Actions** como origen de *Build and deployment*.
-3. Envía los cambios a `main` o ejecuta **Desplegar en GitHub Pages** manualmente desde la pestaña **Actions**. El workflow instala las dependencias, compila y despliega el artefacto sin guardar `dist` en ninguna rama.
-4. Abre la URL publicada en Pages. El prefijo de assets se obtiene automáticamente del nombre del repositorio durante la compilación en Actions.
+1. En **Settings → Pages**, selecciona **GitHub Actions** como origen de *Build and deployment*.
+2. Envía los cambios a `main` o ejecuta **Desplegar en GitHub Pages** manualmente desde la pestaña **Actions**. El workflow instala las dependencias, compila y despliega el artefacto sin guardar `dist` en ninguna rama ni incorporar una clave de API.
+3. Abre la URL publicada en Pages y escribe tu clave personal en **Configuración**. Se guardará en `sessionStorage` hasta que termine la sesión de esa pestaña. No configures una clave en los secrets del workflow: las variables `VITE_` se incorporan al JavaScript público.
+4. El prefijo de assets se obtiene automáticamente del nombre del repositorio durante la compilación en Actions.
 
 ## Seguridad y privacidad
 
-**Una clave `VITE_` se incorpora al JavaScript publicado y cualquier visitante puede verla**, aunque se haya configurado como secret de Actions. Un secret protege la clave en GitHub Actions, no en la aplicación desplegada. Para una clave realmente privada, usa un backend propio con autenticación y límites de uso; esta aplicación estática no ofrece esa protección. Considera dejar el secret vacío y usar la configuración temporal con una clave personal para pruebas.
+**Una clave `VITE_` se incorpora al JavaScript publicado y cualquier visitante puede verla**, aunque se haya configurado como secret de Actions. Un secret protege la clave en GitHub Actions, no en la aplicación desplegada. Este workflow no incorpora claves al sitio: usa la configuración temporal con una clave personal para pruebas. Para una clave realmente privada, usa un backend propio con autenticación y límites de uso; esta aplicación estática no ofrece esa protección.
 
 Para reducir el riesgo, en [Google Cloud Console](https://console.cloud.google.com/apis/credentials), abre la clave del proyecto asociado a AI Studio y configura **Application restrictions → Websites (HTTP referrers)** para permitir únicamente los orígenes necesarios, por ejemplo `https://USUARIO.github.io/*` y, solo para desarrollo, `http://localhost:*/*`. En **API restrictions**, limita la clave a la API de Gemini/Generative Language que utilice el proyecto. Verifica las restricciones y la cuota en Google Cloud antes de publicar; las restricciones de referrer no convierten una clave pública en un secreto y dependen de la compatibilidad de la API y del entorno. No subas `.env` al repositorio.
 
